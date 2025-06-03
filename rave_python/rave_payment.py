@@ -47,7 +47,7 @@ class Payment(RaveBase):
             del response_dict[key]
         return response_dict
 
-    def _preliminaryResponseChecks(self, response, TypeOfErrorToRaise, txRef=None, flwRef=None):
+    def _preliminaryResponseChecks(self, response, TypeOfErrorToRaise, txRef=None):
         preliminary_error_response = copy.deepcopy(response_object)
         preliminary_error_response = Payment.deleteUnnecessaryKeys(
             preliminary_error_response,
@@ -121,7 +121,7 @@ class Payment(RaveBase):
                 "status": responseJson["status"],
                 "validationRequired": True,
                 "txRef": txRef,
-                "flwRef": responseJson["data"]["flwRef"],
+                "data": responseJson["data"]["flwRef"],
                 "narration": responseJson["data"]["narration"],
             }
         else:
@@ -145,8 +145,8 @@ class Payment(RaveBase):
                     "status": responseJson["status"],
                     "validationRequired": True,
                     "txRef": txRef,
-                    "flwRef": responseJson["data"]["flwRef"],
-                    "chargeResponseMessage": responseJson["data"]["chargeResponseMessage"]}
+                    "data": responseJson["data"]
+                }
             else:
                 return {
                     "error": True,
